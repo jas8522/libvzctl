@@ -902,7 +902,11 @@ err:
 int exec_init(const struct start_param *param)
 {
 	char cid[STR_SIZE];
-	char *argv[] = {"init", "-z", "      ", NULL};
+	if (is_systemd())
+		char *argv[] = {"init", NULL};
+	else
+		char *argv[] = {"init", "-z", "      ", NULL};
+	
 	char *envp[] = {"HOME=/", "TERM=linux", cid, NULL};
 	char **env;
 	int errcode = 0;
